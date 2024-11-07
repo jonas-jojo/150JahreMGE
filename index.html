@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instrumentenerkennung - Musig Eggersriet</title>
+  <style>
+    /* Grundlegende Layout-Stile */
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url('Hintergrund.jpg');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Halbtransparenter Overlay für die gesamte Seite, außer den Inhalten */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(245, 247, 250, 0.8); /* helles Grau mit Transparenz */
+      z-index: -1;
+    }
+
+    /* Layout für den Hauptinhalt */
+    header {
+      background-color: #003366;
+      padding: 20px;
+      color: white;
+      text-align: center;
+    }
+
+    header img {
+      max-width: 100px;
+      vertical-align: middle;
+    }
+
+    header h1 {
+      display: inline;
+      font-size: 2em;
+      margin-left: 20px;
+    }
+
+    main {
+      padding: 20px;
+      text-align: center;
+      position: relative; /* Fixiert den Inhalt über dem transparenten Overlay */
+      z-index: 1; /* Höhere Z-Ebene, damit es über dem Overlay liegt */
+    }
+
+    video {
+      border: 2px solid #003366;
+      border-radius: 8px;
+      width: 640px;
+      height: 360px;
+      background-color: #fff; /* Hintergrundfarbe für das Video-Element */
+    }
+
+    select, button {
+      font-size: 1em;
+      padding: 10px;
+      margin-top: 15px;
+      border-radius: 5px;
+      border: 1px solid #003366;
+    }
+
+    button {
+      background-color: #003366;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #005599;
+    }
+
+    #result {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: #003366;
+      margin-top: 20px;
+    }
+
+    /* Startseite-Styling */
+    #startScreen {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    #startScreen h2 {
+      color: #003366;
+      font-size: 2em;
+    }
+
+    #startScreen button {
+      font-size: 1.2em;
+      padding: 15px 30px;
+      background-color: #003366;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    #startScreen button:hover {
+      background-color: #005599;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hintergrund-Overlay -->
+  <div class="overlay"></div>
+
+  <!-- Header mit Logo und Titel -->
+  <header>
+    <img src="logo.png" alt="Musig Eggersriet Logo">
+    <h1>Musig Eggersriet - Instrumentenerkennung</h1>
+  </header>
+
+  <!-- Startseite -->
+  <div id="startScreen">
+    <h2>Willkommen zum Instrumentenerkennungs-Quiz!</h2>
+    <p>Teste dein Wissen über verschiedene Musikinstrumente und finde heraus, ob du das richtige Instrument erkennst.</p>
+    <button onclick="startQuiz()">Start</button>
+  </div>
+
+  <!-- Hauptinhalt -->
+  <main id="quizScreen" style="display: none;">
+    <h2>Erkenne das Instrument im Video</h2>
+
+    <!-- Video-Element mit Autoplay -->
+    <video id="randomVideo" autoplay controls></video>
+
+    <!-- Auswahlmenü für Instrumente -->
+    <div>
+      <label for="instrumentSelect">Welches Instrument wird gespielt?</label>
+      <select id="instrumentSelect">
+        <option value="---">---</option>
+        <option value="Es-Horn">Es-Horn</option>
+        <option value="Bass">Bass</option>
+        <option value="Flügelhorn">Flügelhorn</option>
+        <option value="Bariton">Bariton</option>
+        <option value="Posaune">Posaune</option>
+        <option value="B-Cornet">B-Cornet</option>
+        <option value="Euphonium">Euphonium</option>
+        <option value="Perkussion">Perkussion</option>
+        <option value="Es-Cornet">Es-Cornet</option>
+      </select>
+      <button onclick="checkAnswer()">Auswahl bestätigen</button>
+    </div>
+
+    <!-- Anzeige für das Ergebnis -->
+    <div id="result"></div>
+
+    <!-- Button für das nächste Video -->
+    <button onclick="playRandomVideo()">Nächstes Video</button>
+  </main>
+
+  <script>
+    const videos = [
+      { src: 'Es-Horn.mp4', instrument: 'Es-Horn' },
+      { src: 'Bass.mp4', instrument: 'Bass' },
+      { src: 'Flügelhorn.mp4', instrument: 'Flügelhorn' },
+      { src: 'Bariton.mp4', instrument: 'Bariton' },
+      { src: 'Posaune.mp4', instrument: 'Posaune' },
+      { src: 'B-Cornet.mp4', instrument: 'B-Cornet' },
+      { src: 'Euphonium.mp4', instrument: 'Euphonium' },
+      { src: 'Perkussion.mp4', instrument: 'Perkussion' },
+      { src: 'Es-Cornet.mp4', instrument: 'Es-Cornet' },
+    ];
+
+    let currentVideo = null;
+
+    function startQuiz() {
+      document.getElementById('startScreen').style.display = 'none';
+      document.getElementById('quizScreen').style.display = 'block';
+      playRandomVideo();
+    }
+
+    function playRandomVideo() {
+      const randomIndex = Math.floor(Math.random() * videos.length);
+      currentVideo = videos[randomIndex];
+      const videoElement = document.getElementById('randomVideo');
+      videoElement.src = currentVideo.src;
+      videoElement.play();
+      document.getElementById('instrumentSelect').value = '---';
+      document.getElementById('result').innerText = '';
+    }
+
+    function checkAnswer() {
+      const selectedInstrument = document.getElementById('instrumentSelect').value;
+      const resultText = (selectedInstrument === currentVideo.instrument) ? 'Richtig!' : 'Falsch.';
+      document.getElementById('result').innerText = resultText;
+    }
+  </script>
+
+</body>
+</html>
