@@ -204,6 +204,8 @@
     <h2>Ergebnisse</h2>
     <p>Richtige Antworten: <span id="correctCount"></span></p>
     <p>Falsche Antworten: <span id="incorrectCount"></span></p>
+    <p>Unbeantwortete Fragen:</p>
+    <ul id="unansweredList"></ul>
     <button onclick="location.reload()">Neues Spiel starten</button>
   </main>
 
@@ -223,6 +225,7 @@
     let currentVideo = null;
     let correctAnswers = 0;
     let incorrectAnswers = 0;
+    let unansweredQuestions = [];
 
     function startQuiz() {
       document.getElementById('startScreen').style.display = 'none';
@@ -231,6 +234,9 @@
     }
 
     function playRandomVideo() {
+      if (currentVideo && document.getElementById('instrumentSelect').value === '---') {
+        unansweredQuestions.push(currentVideo.instrument);
+      }
       const randomIndex = Math.floor(Math.random() * videos.length);
       currentVideo = videos[randomIndex];
       const videoElement = document.getElementById('randomVideo');
@@ -242,22 +248,33 @@
 
     function checkAnswer() {
       const selectedInstrument = document.getElementById('instrumentSelect').value;
-      const resultText = (selectedInstrument === currentVideo.instrument) ? 'Richtig!' : 'Falsch.';
-      document.getElementById('result').innerText = resultText;
-      if (resultText === 'Richtig!') {
+      if (selectedInstrument === '---') return;
+      if (selectedInstrument === currentVideo.instrument) {
         correctAnswers++;
+        document.getElementById('result').innerText = 'Richtig!';
       } else {
         incorrectAnswers++;
+        document.getElementById('result').innerText = 'Falsch.';
       }
     }
 
     function endGame() {
+      if (document.getElementById('instrumentSelect').value === '---' && currentVideo) {
+        unansweredQuestions.push(currentVideo.instrument);
+      }
       document.getElementById('quizScreen').style.display = 'none';
       document.getElementById('resultScreen').style.display = 'block';
       document.getElementById('correctCount').innerText = correctAnswers;
       document.getElementById('incorrectCount').innerText = incorrectAnswers;
+
+      const unansweredList = document.getElementById('unansweredList');
+      unansweredList.innerHTML = '';
+      unansweredQuestions.forEach(instrument => {
+        const li = document.createElement('li');
+        li.textContent = instrument;
+        unansweredList.appendChild(li);
+      });
     }
   </script>
-
 </body>
 </html>
