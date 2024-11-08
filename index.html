@@ -23,7 +23,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(245, 247, 250, 0.8); /* helles Grau mit Transparenz */
+      background-color: rgba(245, 247, 250, 0.8);
       z-index: -1;
     }
 
@@ -49,8 +49,8 @@
     main {
       padding: 15px;
       text-align: center;
-      position: relative; /* Fixiert den Inhalt über dem transparenten Overlay */
-      z-index: 1; /* Höhere Z-Ebene, damit es über dem Overlay liegt */
+      position: relative;
+      z-index: 1;
     }
 
     /* Responsives Video */
@@ -194,8 +194,17 @@
     <!-- Anzeige für das Ergebnis -->
     <div id="result"></div>
 
-    <!-- Button für das nächste Video -->
+    <!-- Buttons für das nächste Video und zum Beenden -->
     <button onclick="playRandomVideo()">Nächstes Video</button>
+    <button onclick="endGame()">Beenden</button>
+  </main>
+
+  <!-- Ergebnis-Seite -->
+  <main id="resultScreen" style="display: none;">
+    <h2>Ergebnisse</h2>
+    <p>Richtige Antworten: <span id="correctCount"></span></p>
+    <p>Falsche Antworten: <span id="incorrectCount"></span></p>
+    <button onclick="location.reload()">Neues Spiel starten</button>
   </main>
 
   <script>
@@ -212,6 +221,8 @@
     ];
 
     let currentVideo = null;
+    let correctAnswers = 0;
+    let incorrectAnswers = 0;
 
     function startQuiz() {
       document.getElementById('startScreen').style.display = 'none';
@@ -233,6 +244,18 @@
       const selectedInstrument = document.getElementById('instrumentSelect').value;
       const resultText = (selectedInstrument === currentVideo.instrument) ? 'Richtig!' : 'Falsch.';
       document.getElementById('result').innerText = resultText;
+      if (resultText === 'Richtig!') {
+        correctAnswers++;
+      } else {
+        incorrectAnswers++;
+      }
+    }
+
+    function endGame() {
+      document.getElementById('quizScreen').style.display = 'none';
+      document.getElementById('resultScreen').style.display = 'block';
+      document.getElementById('correctCount').innerText = correctAnswers;
+      document.getElementById('incorrectCount').innerText = incorrectAnswers;
     }
   </script>
 
