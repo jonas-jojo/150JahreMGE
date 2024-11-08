@@ -122,6 +122,44 @@
       background-color: #005599;
     }
 
+    /* Modal für Tonhinweis */
+    #soundModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+
+    #soundModal .modal-content {
+      background-color: white;
+      padding: 20px;
+      text-align: center;
+      border-radius: 8px;
+      max-width: 300px;
+      font-size: 1.2em;
+    }
+
+    #soundModal button {
+      font-size: 1em;
+      padding: 10px 20px;
+      margin-top: 15px;
+      background-color: #003366;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #soundModal button:hover {
+      background-color: #005599;
+    }
+
     /* Für kleine Bildschirme, Anpassungen */
     @media (max-width: 600px) {
       header h1 {
@@ -199,15 +237,13 @@
     <button onclick="endGame()">Beenden</button>
   </main>
 
-  <!-- Ergebnis-Seite -->
-  <main id="resultScreen" style="display: none;">
-    <h2>Ergebnisse</h2>
-    <p>Richtige Antworten: <span id="correctCount"></span></p>
-    <p>Falsche Antworten: <span id="incorrectCount"></span></p>
-    <p>Unbeantwortete Fragen:</p>
-    <ul id="unansweredList"></ul>
-    <button onclick="location.reload()">Neues Spiel starten</button>
-  </main>
+  <!-- Modal für Tonhinweis -->
+  <div id="soundModal">
+    <div class="modal-content">
+      <p>Ton an!</p>
+      <button onclick="closeSoundModal()">Verstanden</button>
+    </div>
+  </div>
 
   <script>
     const videos = [
@@ -231,6 +267,7 @@
       document.getElementById('startScreen').style.display = 'none';
       document.getElementById('quizScreen').style.display = 'block';
       playRandomVideo();
+      showSoundModal();
     }
 
     function playRandomVideo() {
@@ -262,19 +299,26 @@
       if (document.getElementById('instrumentSelect').value === '---' && currentVideo) {
         unansweredQuestions.push(currentVideo.instrument);
       }
-      document.getElementById('quizScreen').style.display = 'none';
-      document.getElementById('resultScreen').style.display = 'block';
-      document.getElementById('correctCount').innerText = correctAnswers;
-      document.getElementById('incorrectCount').innerText = incorrectAnswers;
+      let resultHTML = `<p>Richtige Antworten: ${correctAnswers}</p>
+                        <p>Falsche Antworten: ${incorrectAnswers}</p>`;
+      if (unansweredQuestions.length > 0) {
+        resultHTML += '<p>Unbeantwortete Fragen:</p><ul>';
+        unansweredQuestions.forEach(instrument => {
+          resultHTML += `<li>${instrument}</li>`;
+        });
+        resultHTML += '</ul>';
+      }
+      document.body.innerHTML = `<div style="text-align: center; padding: 20px;">${resultHTML}</div>`;
+    }
 
-      const unansweredList = document.getElementById('unansweredList');
-      unansweredList.innerHTML = '';
-      unansweredQuestions.forEach(instrument => {
-        const li = document.createElement('li');
-        li.textContent = instrument;
-        unansweredList.appendChild(li);
-      });
+    function showSoundModal() {
+      document.getElementById('soundModal').style.display = 'flex';
+    }
+
+    function closeSoundModal() {
+      document.getElementById('soundModal').style.display = 'none';
     }
   </script>
+
 </body>
 </html>
