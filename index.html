@@ -61,7 +61,6 @@
       border: 2px solid #003366;
       border-radius: 8px;
       background-color: #fff;
-      display: none; /* Video standardmäßig ausgeblendet */
     }
 
     /* Auswahlmenü und Buttons */
@@ -123,7 +122,7 @@
       background-color: #005599;
     }
 
-    /* Breiteres Modal für Tonhinweis */
+    /* Modal für Tonhinweis */
     #soundModal {
       display: none;
       position: fixed;
@@ -142,7 +141,7 @@
       padding: 20px;
       text-align: center;
       border-radius: 8px;
-      max-width: 400px; /* Breiteres Modal */
+      max-width: 300px;
       font-size: 1.2em;
     }
 
@@ -210,7 +209,7 @@
     <h2>Erkenne das Instrument im Video</h2>
 
     <!-- Video-Element mit Autoplay -->
-    <video id="randomVideo" controls></video>
+    <video id="randomVideo" autoplay controls></video>
 
     <!-- Auswahlmenü für Instrumente -->
     <div>
@@ -267,6 +266,7 @@
     function startQuiz() {
       document.getElementById('startScreen').style.display = 'none';
       document.getElementById('quizScreen').style.display = 'block';
+      playRandomVideo();
       showSoundModal();
     }
 
@@ -278,7 +278,6 @@
       currentVideo = videos[randomIndex];
       const videoElement = document.getElementById('randomVideo');
       videoElement.src = currentVideo.src;
-      videoElement.style.display = 'block'; // Video anzeigen
       videoElement.play();
       document.getElementById('instrumentSelect').value = '---';
       document.getElementById('result').innerText = '';
@@ -318,7 +317,6 @@
 
     function closeSoundModal() {
       document.getElementById('soundModal').style.display = 'none';
-      playRandomVideo(); // Erstes Video nach Schließen des Modals starten
     }
   </script>
 
