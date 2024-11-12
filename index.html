@@ -308,7 +308,17 @@
         });
         resultHTML += '</ul>';
       }
-      document.body.innerHTML = `<div style="text-align: center; padding: 20px;">${resultHTML}</div>`;
+
+      // Hauptinhalt ersetzen, aber das Hintergrundbild und Overlay beibehalten
+      document.getElementById('quizScreen').style.display = 'none';
+      document.getElementById('startScreen').style.display = 'none';
+
+      const endScreen = document.createElement('div');
+      endScreen.style.textAlign = 'center';
+      endScreen.style.padding = '20px';
+      endScreen.innerHTML = `<h2>Spiel beendet!</h2>${resultHTML}`;
+      
+      document.body.appendChild(endScreen);
     }
 
     function showSoundModal() {
