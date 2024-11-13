@@ -235,9 +235,10 @@
     <!-- Anzeige für das Ergebnis -->
     <div id="result"></div>
 
-    <!-- Buttons für das nächste Video und zum Beenden -->
+    <!-- Buttons für das nächste Video, zum Beenden und das Spiel neu starten -->
     <button onclick="playRandomVideo()">Nächstes Video</button>
     <button onclick="endGame()">Beenden</button>
+    <button onclick="restartGame()">Spiel neu starten</button>
   </main>
 
   <!-- Modal für Tonhinweis -->
@@ -301,6 +302,18 @@
     function endGame() {
       alert(`Richtige Antworten: ${correctAnswers}\nFalsche Antworten: ${incorrectAnswers}\nNicht beantwortete Fragen: ${unansweredQuestions.length}`);
       location.reload();
+    }
+
+    function restartGame() {
+      correctAnswers = 0;
+      incorrectAnswers = 0;
+      unansweredQuestions = [];
+      document.getElementById('startScreen').style.display = 'block';
+      document.getElementById('quizScreen').style.display = 'none';
+      document.getElementById('instrumentSelect').value = '---';
+      document.getElementById('result').innerText = '';
+      document.getElementById('randomVideo').pause();
+      document.getElementById('randomVideo').src = '';
     }
 
     function showSoundModal() {
