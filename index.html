@@ -146,8 +146,8 @@
     }
 
     #soundModal button {
-      font-size: 1.5em; /* Erhöhte Schriftgröße */
-      padding: 15px 30px; /* Erhöhtes Padding */
+      font-size: 1em;
+      padding: 10px 20px;
       margin-top: 15px;
       background-color: #003366;
       color: white;
@@ -233,7 +233,7 @@
     <div id="result"></div>
 
     <!-- Buttons für das nächste Video und zum Beenden -->
-    <button style="font-size: 1.5em; padding: 20px 40px;" onclick="playRandomVideo()">Nächstes Video</button>
+    <button onclick="playRandomVideo()">Nächstes Video</button>
     <button onclick="endGame()">Beenden</button>
   </main>
 
@@ -241,7 +241,7 @@
   <div id="soundModal">
     <div class="modal-content">
       <p>Ton an!</p>
-      <button onclick="closeSoundModal()">OK!</button>
+      <button onclick="closeSoundModal()">Verstanden</button>
     </div>
   </div>
 
@@ -271,9 +271,14 @@
     }
 
     function playRandomVideo() {
+      if (currentVideo && document.getElementById('instrumentSelect').value === '---') {
+        unansweredQuestions.push(currentVideo.instrument);
+      }
       const randomIndex = Math.floor(Math.random() * videos.length);
       currentVideo = videos[randomIndex];
-      document.getElementById('randomVideo').src = currentVideo.src;
+      const videoElement = document.getElementById('randomVideo');
+      videoElement.src = currentVideo.src;
+      videoElement.play();
       document.getElementById('instrumentSelect').value = '---';
       document.getElementById('result').innerText = '';
     }
@@ -281,7 +286,6 @@
     function checkAnswer() {
       const selectedInstrument = document.getElementById('instrumentSelect').value;
       if (selectedInstrument === '---') return;
-
       if (selectedInstrument === currentVideo.instrument) {
         correctAnswers++;
         document.getElementById('result').innerText = 'Richtig!';
@@ -305,6 +309,7 @@
         resultHTML += '</ul>';
       }
 
+      // Hauptinhalt ersetzen, aber das Hintergrundbild und Overlay beibehalten
       document.getElementById('quizScreen').style.display = 'none';
       document.getElementById('startScreen').style.display = 'none';
 
