@@ -154,6 +154,9 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     #soundModal button:hover {
@@ -291,34 +294,13 @@
         document.getElementById('result').innerText = 'Richtig!';
       } else {
         incorrectAnswers++;
-        document.getElementById('result').innerText = 'Falsch.';
+        document.getElementById('result').innerText = 'Falsch!';
       }
     }
 
     function endGame() {
-      if (document.getElementById('instrumentSelect').value === '---' && currentVideo) {
-        unansweredQuestions.push(currentVideo.instrument);
-      }
-      let resultHTML = `<p>Richtige Antworten: ${correctAnswers}</p>
-                        <p>Falsche Antworten: ${incorrectAnswers}</p>`;
-      if (unansweredQuestions.length > 0) {
-        resultHTML += '<p>Unbeantwortete Fragen:</p><ul>';
-        unansweredQuestions.forEach(instrument => {
-          resultHTML += `<li>${instrument}</li>`;
-        });
-        resultHTML += '</ul>';
-      }
-
-      // Hauptinhalt ersetzen, aber das Hintergrundbild und Overlay beibehalten
-      document.getElementById('quizScreen').style.display = 'none';
-      document.getElementById('startScreen').style.display = 'none';
-
-      const endScreen = document.createElement('div');
-      endScreen.style.textAlign = 'center';
-      endScreen.style.padding = '20px';
-      endScreen.innerHTML = `<h2>Spiel beendet!</h2>${resultHTML}`;
-      
-      document.body.appendChild(endScreen);
+      alert(`Richtige Antworten: ${correctAnswers}\nFalsche Antworten: ${incorrectAnswers}\nNicht beantwortete Fragen: ${unansweredQuestions.length}`);
+      location.reload();
     }
 
     function showSoundModal() {
@@ -329,6 +311,5 @@
       document.getElementById('soundModal').style.display = 'none';
     }
   </script>
-
 </body>
 </html>
