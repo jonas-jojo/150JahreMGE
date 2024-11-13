@@ -4,35 +4,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Instrumentenerkennung - Musig Eggersriet</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
   <style>
     /* Grundlegende Layout-Stile */
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Roboto', sans-serif;
       background-image: url('Hintergrund.jpg');
       background-size: cover;
       background-attachment: fixed;
       background-position: center;
       margin: 0;
       padding: 0;
+      color: #003366;
     }
 
-    /* Halbtransparenter Overlay für die gesamte Seite, außer den Inhalten */
+    /* Halbtransparenter Overlay */
     .overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(245, 247, 250, 0.8);
+      background-color: rgba(0, 0, 0, 0.5);
       z-index: -1;
     }
 
-    /* Layout für den Hauptinhalt */
+    /* Header-Stile */
     header {
-      background-color: #003366;
+      background-color: rgba(0, 51, 102, 0.9);
       padding: 15px;
-      color: white;
       text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
 
     header img {
@@ -42,36 +44,78 @@
 
     header h1 {
       display: inline;
-      font-size: 1.5em;
+      font-size: 1.8em;
       margin-left: 10px;
+      color: #f5f7fa;
     }
 
-    main {
-      padding: 15px;
+    /* Startseite */
+    #startScreen {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
       text-align: center;
-      position: relative;
-      z-index: 1;
     }
 
-    /* Responsives Video */
+    #startScreen h2 {
+      font-size: 2em;
+      color: #f5f7fa;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    #startScreen p {
+      font-size: 1.2em;
+      color: #e6e9ef;
+    }
+
+    #startScreen button {
+      font-size: 1.2em;
+      padding: 15px 30px;
+      background-color: #005599;
+      color: #f5f7fa;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    #startScreen button:hover {
+      background-color: #0077cc;
+    }
+
+    /* Quiz-Bereich */
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+    }
+
     video {
-      width: 100%;
+      width: 90%;
       max-width: 640px;
       height: auto;
-      border: 2px solid #003366;
+      border: 3px solid #005599;
       border-radius: 8px;
       background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     }
 
-    /* Auswahlmenü und Buttons */
     select, button {
-      font-size: 1.2em;
+      font-size: 1.1em;
       padding: 10px;
       margin-top: 15px;
       border-radius: 5px;
       border: 1px solid #003366;
-      width: 80%;
+      width: 90%;
       max-width: 300px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: 0.3s;
     }
 
     button {
@@ -87,42 +131,11 @@
     #result {
       font-size: 1.5em;
       font-weight: bold;
-      color: #003366;
+      color: #005599;
       margin-top: 20px;
     }
 
-    /* Startseite-Styling */
-    #startScreen {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      position: relative;
-      z-index: 1;
-    }
-
-    #startScreen h2 {
-      color: #003366;
-      font-size: 2em;
-    }
-
-    #startScreen button {
-      font-size: 1.2em;
-      padding: 15px 30px;
-      background-color: #003366;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 20px;
-    }
-
-    #startScreen button:hover {
-      background-color: #005599;
-    }
-
-    /* Endergebnisse-Seite */
+    /* Endseite */
     #endScreen {
       display: none;
       padding: 15px;
@@ -132,14 +145,23 @@
       align-items: center;
     }
 
-    #endScreen h2 {
-      color: #003366;
-      font-size: 2em;
+    #endScreen h2, #endScreen p {
+      color: #f5f7fa;
     }
 
-    #endScreen p {
-      font-size: 1.2em;
-      color: #003366;
+    #endScreen button {
+      font-size: 1em;
+      padding: 10px 20px;
+      background-color: #003366;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #endScreen button:hover {
+      background-color: #005599;
     }
 
     /* Modal für Tonhinweis */
@@ -150,7 +172,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: rgba(0, 0, 0, 0.6);
       justify-content: center;
       align-items: center;
       z-index: 10;
@@ -163,44 +185,21 @@
       border-radius: 8px;
       max-width: 300px;
       font-size: 1.2em;
+      color: #003366;
     }
 
-    #soundModal button {
-      font-size: 1em;
-      padding: 10px 20px;
-      margin-top: 15px;
-      background-color: #003366;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    #soundModal button:hover {
-      background-color: #005599;
-    }
-
-    /* Für kleine Bildschirme, Anpassungen */
+    /* Kleine Bildschirme */
     @media (max-width: 600px) {
       header h1 {
         font-size: 1.2em;
       }
 
-      #startScreen h2 {
+      #startScreen h2, #endScreen h2 {
         font-size: 1.5em;
       }
 
-      #startScreen button {
-        font-size: 1.1em;
-        padding: 12px 25px;
-      }
-
       select, button {
-        font-size: 1.1em;
-        width: 90%;
+        font-size: 1em;
       }
 
       video {
@@ -227,40 +226,30 @@
     <button onclick="startQuiz()">Start</button>
   </div>
 
-  <!-- Hauptinhalt -->
+  <!-- Quizbereich -->
   <main id="quizScreen" style="display: none;">
     <h2>Erkenne das Instrument im Video</h2>
-
-    <!-- Video-Element mit Autoplay -->
     <video id="randomVideo" autoplay controls></video>
-
-    <!-- Auswahlmenü für Instrumente -->
-    <div>
-      <label for="instrumentSelect">Welches Instrument wird gespielt?</label>
-      <select id="instrumentSelect">
-        <option value="---">---</option>
-        <option value="Es-Horn">Es-Horn</option>
-        <option value="Bass">Bass</option>
-        <option value="Flügelhorn">Flügelhorn</option>
-        <option value="Bariton">Bariton</option>
-        <option value="Posaune">Posaune</option>
-        <option value="B-Cornet">B-Cornet</option>
-        <option value="Euphonium">Euphonium</option>
-        <option value="Perkussion">Perkussion</option>
-        <option value="Es-Cornet">Es-Cornet</option>
-      </select>
-      <button onclick="checkAnswer()">Auswahl bestätigen</button>
-    </div>
-
-    <!-- Anzeige für das Ergebnis -->
+    <label for="instrumentSelect">Welches Instrument wird gespielt?</label>
+    <select id="instrumentSelect">
+      <option value="---">---</option>
+      <option value="Es-Horn">Es-Horn</option>
+      <option value="Bass">Bass</option>
+      <option value="Flügelhorn">Flügelhorn</option>
+      <option value="Bariton">Bariton</option>
+      <option value="Posaune">Posaune</option>
+      <option value="B-Cornet">B-Cornet</option>
+      <option value="Euphonium">Euphonium</option>
+      <option value="Perkussion">Perkussion</option>
+      <option value="Es-Cornet">Es-Cornet</option>
+    </select>
+    <button onclick="checkAnswer()">Auswahl bestätigen</button>
     <div id="result"></div>
-
-    <!-- Buttons für das nächste Video und zum Beenden -->
     <button onclick="playRandomVideo()">Nächstes Video</button>
     <button onclick="endGame()">Beenden</button>
   </main>
 
-  <!-- Endergebnisse-Seite -->
+  <!-- Endseite -->
   <div id="endScreen">
     <h2>Spiel beendet!</h2>
     <p>Richtige Antworten: <span id="correctAnswers"></span></p>
@@ -276,85 +265,5 @@
       <button onclick="closeSoundModal()">OK!</button>
     </div>
   </div>
-
-  <script>
-    const videos = [
-      { src: 'Es-Horn.mp4', instrument: 'Es-Horn' },
-      { src: 'Bass.mp4', instrument: 'Bass' },
-      { src: 'Flügelhorn.mp4', instrument: 'Flügelhorn' },
-      { src: 'Bariton.mp4', instrument: 'Bariton' },
-      { src: 'Posaune.mp4', instrument: 'Posaune' },
-      { src: 'B-Cornet.mp4', instrument: 'B-Cornet' },
-      { src: 'Euphonium.mp4', instrument: 'Euphonium' },
-      { src: 'Perkussion.mp4', instrument: 'Perkussion' },
-      { src: 'Es-Cornet.mp4', instrument: 'Es-Cornet' },
-    ];
-
-    let currentVideo = null;
-    let correctAnswers = 0;
-    let incorrectAnswers = 0;
-    let unansweredQuestions = [];
-
-    function startQuiz() {
-      document.getElementById('startScreen').style.display = 'none';
-      document.getElementById('quizScreen').style.display = 'block';
-      playRandomVideo();
-      showSoundModal();
-    }
-
-    function playRandomVideo() {
-      if (currentVideo && document.getElementById('instrumentSelect').value === '---') {
-        unansweredQuestions.push(currentVideo.instrument);
-      }
-      const randomIndex = Math.floor(Math.random() * videos.length);
-      currentVideo = videos[randomIndex];
-      const videoElement = document.getElementById('randomVideo');
-      videoElement.src = currentVideo.src;
-      videoElement.play();
-      document.getElementById('instrumentSelect').value = '---';
-      document.getElementById('result').innerText = '';
-    }
-
-    function checkAnswer() {
-      const selectedInstrument = document.getElementById('instrumentSelect').value;
-      if (selectedInstrument === '---') return;
-      if (selectedInstrument === currentVideo.instrument) {
-        correctAnswers++;
-        document.getElementById('result').innerText = 'Richtig!';
-      } else {
-        incorrectAnswers++;
-        document.getElementById('result').innerText = 'Falsch!';
-      }
-    }
-
-    function endGame() {
-      document.getElementById('quizScreen').style.display = 'none';
-      document.getElementById('endScreen').style.display = 'block';
-      document.getElementById('correctAnswers').innerText = correctAnswers;
-      document.getElementById('incorrectAnswers').innerText = incorrectAnswers;
-      document.getElementById('unansweredQuestions').innerText = unansweredQuestions.length;
-    }
-
-    function restartGame() {
-      correctAnswers = 0;
-      incorrectAnswers = 0;
-      unansweredQuestions = [];
-      document.getElementById('startScreen').style.display = 'flex';
-      document.getElementById('endScreen').style.display = 'none';
-      document.getElementById('instrumentSelect').value = '---';
-      document.getElementById('result').innerText = '';
-      document.getElementById('randomVideo').pause();
-      document.getElementById('randomVideo').src = '';
-    }
-
-    function showSoundModal() {
-      document.getElementById('soundModal').style.display = 'flex';
-    }
-
-    function closeSoundModal() {
-      document.getElementById('soundModal').style.display = 'none';
-    }
-  </script>
-
 </body>
 </html>
