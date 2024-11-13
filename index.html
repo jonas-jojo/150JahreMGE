@@ -122,6 +122,26 @@
       background-color: #005599;
     }
 
+    /* Endergebnisse-Seite */
+    #endScreen {
+      display: none;
+      padding: 15px;
+      text-align: center;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #endScreen h2 {
+      color: #003366;
+      font-size: 2em;
+    }
+
+    #endScreen p {
+      font-size: 1.2em;
+      color: #003366;
+    }
+
     /* Modal für Tonhinweis */
     #soundModal {
       display: none;
@@ -235,11 +255,19 @@
     <!-- Anzeige für das Ergebnis -->
     <div id="result"></div>
 
-    <!-- Buttons für das nächste Video, zum Beenden und das Spiel neu starten -->
+    <!-- Buttons für das nächste Video und zum Beenden -->
     <button onclick="playRandomVideo()">Nächstes Video</button>
     <button onclick="endGame()">Beenden</button>
-    <button onclick="restartGame()">Spiel neu starten</button>
   </main>
+
+  <!-- Endergebnisse-Seite -->
+  <div id="endScreen">
+    <h2>Spiel beendet!</h2>
+    <p>Richtige Antworten: <span id="correctAnswers"></span></p>
+    <p>Falsche Antworten: <span id="incorrectAnswers"></span></p>
+    <p>Nicht beantwortete Fragen: <span id="unansweredQuestions"></span></p>
+    <button onclick="restartGame()">Spiel neu starten</button>
+  </div>
 
   <!-- Modal für Tonhinweis -->
   <div id="soundModal">
@@ -300,8 +328,11 @@
     }
 
     function endGame() {
-      alert(`Richtige Antworten: ${correctAnswers}\nFalsche Antworten: ${incorrectAnswers}\nNicht beantwortete Fragen: ${unansweredQuestions.length}`);
-      location.reload();
+      document.getElementById('quizScreen').style.display = 'none';
+      document.getElementById('endScreen').style.display = 'block';
+      document.getElementById('correctAnswers').innerText = correctAnswers;
+      document.getElementById('incorrectAnswers').innerText = incorrectAnswers;
+      document.getElementById('unansweredQuestions').innerText = unansweredQuestions.length;
     }
 
     function restartGame() {
@@ -309,7 +340,7 @@
       incorrectAnswers = 0;
       unansweredQuestions = [];
       document.getElementById('startScreen').style.display = 'block';
-      document.getElementById('quizScreen').style.display = 'none';
+      document.getElementById('endScreen').style.display = 'none';
       document.getElementById('instrumentSelect').value = '---';
       document.getElementById('result').innerText = '';
       document.getElementById('randomVideo').pause();
