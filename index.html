@@ -146,8 +146,8 @@
     }
 
     #soundModal button {
-      font-size: 1em;
-      padding: 10px 20px;
+      font-size: 1.5em; /* Erhöhte Schriftgröße */
+      padding: 15px 30px; /* Erhöhtes Padding */
       margin-top: 15px;
       background-color: #003366;
       color: white;
@@ -271,14 +271,9 @@
     }
 
     function playRandomVideo() {
-      if (currentVideo && document.getElementById('instrumentSelect').value === '---') {
-        unansweredQuestions.push(currentVideo.instrument);
-      }
       const randomIndex = Math.floor(Math.random() * videos.length);
       currentVideo = videos[randomIndex];
-      const videoElement = document.getElementById('randomVideo');
-      videoElement.src = currentVideo.src;
-      videoElement.play();
+      document.getElementById('randomVideo').src = currentVideo.src;
       document.getElementById('instrumentSelect').value = '---';
       document.getElementById('result').innerText = '';
     }
@@ -286,6 +281,7 @@
     function checkAnswer() {
       const selectedInstrument = document.getElementById('instrumentSelect').value;
       if (selectedInstrument === '---') return;
+
       if (selectedInstrument === currentVideo.instrument) {
         correctAnswers++;
         document.getElementById('result').innerText = 'Richtig!';
@@ -309,7 +305,6 @@
         resultHTML += '</ul>';
       }
 
-      // Hauptinhalt ersetzen, aber das Hintergrundbild und Overlay beibehalten
       document.getElementById('quizScreen').style.display = 'none';
       document.getElementById('startScreen').style.display = 'none';
 
