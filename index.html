@@ -102,6 +102,13 @@
       margin: 0 auto;
     }
 
+    .video-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+
     video {
       width: 90%;
       max-width: 640px;
@@ -236,7 +243,9 @@
   <!-- Quizbereich -->
   <main id="quizScreen" style="display: none;">
     <h2>Erkenne das Instrument im Video</h2>
-    <video id="randomVideo" autoplay controls></video>
+    <div class="video-container">
+      <video id="randomVideo" autoplay controls></video>
+    </div>
     <label for="instrumentSelect">Welches Instrument wird gespielt?</label>
     <select id="instrumentSelect">
       <option value="---">---</option>
@@ -273,84 +282,84 @@
     </div>
   </div>
 
-  <!-- JavaScript bleibt unverändert -->
   <script>
     const videos = [
-      { src: 'Es-Horn.mp4', instrument: 'Es-Horn' },
-      { src: 'Bass.mp4', instrument: 'Bass' },
-      { src: 'Flügelhorn.mp4', instrument: 'Flügelhorn' },
-      { src: 'Bariton.mp4', instrument: 'Bariton' },
-      { src: 'Posaune.mp4', instrument: 'Posaune' },
-      { src: 'B-Cornet.mp4', instrument: 'B-Cornet' },
-      { src: 'Euphonium.mp4', instrument: 'Euphonium' },
-      { src: 'Perkussion.mp4', instrument: 'Perkussion' },
-      { src: 'Es-Cornet.mp4', instrument: 'Es-Cornet' },
+      "video1.mp4",
+      "video2.mp4",
+      "video3.mp4",
+      "video4.mp4",
+      "video5.mp4",
+      "video6.mp4",
+      "video7.mp4"
     ];
 
-    let currentVideo = null;
     let correctAnswers = 0;
     let incorrectAnswers = 0;
-    let unansweredQuestions = [];
+    let unansweredQuestions = 0;
+    let correctInstrument = "";
 
     function startQuiz() {
-      document.getElementById('startScreen').style.display = 'none';
-      document.getElementById('quizScreen').style.display = 'block';
+      document.getElementById("startScreen").style.display = "none";
+      document.getElementById("quizScreen").style.display = "flex";
       playRandomVideo();
-      showSoundModal();
     }
 
     function playRandomVideo() {
-      if (currentVideo && document.getElementById('instrumentSelect').value === '---') {
-        unansweredQuestions.push(currentVideo.instrument);
-      }
       const randomIndex = Math.floor(Math.random() * videos.length);
-      currentVideo = videos[randomIndex];
-      const videoElement = document.getElementById('randomVideo');
-      videoElement.src = currentVideo.src;
-      videoElement.play();
-      document.getElementById('instrumentSelect').value = '---';
-      document.getElementById('result').innerText = '';
+      const videoFile = videos[randomIndex];
+      document.getElementById("randomVideo").src = videoFile;
+
+      const instrumentOptions = [
+        "Es-Horn", "Bass", "Flügelhorn", "Bariton",
+        "Posaune", "B-Cornet", "Euphonium", "Perkussion", "Es-Cornet"
+      ];
+      correctInstrument = instrumentOptions[randomIndex];
+      document.getElementById("instrumentSelect").value = "---";
+      document.getElementById("result").textContent = "";
     }
 
     function checkAnswer() {
-      const selectedInstrument = document.getElementById('instrumentSelect').value;
-      if (selectedInstrument === '---') return;
-      if (selectedInstrument === currentVideo.instrument) {
+      const selectedInstrument = document.getElementById("instrumentSelect").value;
+      if (selectedInstrument === "---") {
+        unansweredQuestions++;
+        alert("Bitte wähle ein Instrument aus!");
+        return;
+      }
+
+      if (selectedInstrument === correctInstrument) {
         correctAnswers++;
-        document.getElementById('result').innerText = 'Richtig!';
+        document.getElementById("result").textContent = "Richtig!";
       } else {
         incorrectAnswers++;
-        document.getElementById('result').innerText = 'Falsch!';
+        document.getElementById("result").textContent = "Leider falsch. Richtig wäre: " + correctInstrument;
       }
     }
 
     function endGame() {
-      document.getElementById('quizScreen').style.display = 'none';
-      document.getElementById('endScreen').style.display = 'block';
-      document.getElementById('correctAnswers').innerText = correctAnswers;
-      document.getElementById('incorrectAnswers').innerText = incorrectAnswers;
-      document.getElementById('unansweredQuestions').innerText = unansweredQuestions.length;
+      document.getElementById("quizScreen").style.display = "none";
+      document.getElementById("endScreen").style.display = "flex";
+      document.getElementById("correctAnswers").textContent = correctAnswers;
+      document.getElementById("incorrectAnswers").textContent = incorrectAnswers;
+      document.getElementById("unansweredQuestions").textContent = unansweredQuestions;
     }
 
     function restartGame() {
       correctAnswers = 0;
       incorrectAnswers = 0;
-      unansweredQuestions = [];
-      document.getElementById('startScreen').style.display = 'flex';
-      document.getElementById('endScreen').style.display = 'none';
-      document.getElementById('instrumentSelect').value = '---';
-      document.getElementById('result').innerText = '';
-      document.getElementById('randomVideo').pause();
-      document.getElementById('randomVideo').src = '';
-    }
-
-    function showSoundModal() {
-      document.getElementById('soundModal').style.display = 'flex';
+      unansweredQuestions = 0;
+      document.getElementById("endScreen").style.display = "none";
+      document.getElementById("startScreen").style.display = "flex";
     }
 
     function closeSoundModal() {
-      document.getElementById('soundModal').style.display = 'none';
+      document.getElementById("soundModal").style.display = "none";
     }
+
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        document.getElementById("soundModal").style.display = "flex";
+      }, 500);
+    });
   </script>
 
 </body>
