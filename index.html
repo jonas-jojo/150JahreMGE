@@ -2,6 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gutschein zum 53. Geburtstag</title>
   <style>
     body {
@@ -14,39 +15,40 @@
 
     .container {
       max-width: 700px;
-      margin: 50px auto;
-      background-color: #fff3e0; /* sanfter hautfarbener Ton */
-      padding: 30px;
+      width: 90%;
+      margin: 30px auto;
+      background-color: #fff3e0;
+      padding: 20px;
       border-radius: 15px;
       box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
     }
 
     h1 {
       text-align: center;
-      font-size: 36px;
+      font-size: 28px;
       color: #bf360c;
       margin-bottom: 10px;
     }
 
     .birthday-banner {
       text-align: center;
-      font-size: 22px;
-      margin-bottom: 25px;
+      font-size: 20px;
+      margin-bottom: 20px;
       color: #e65100;
     }
 
     .intro {
-      font-size: 18px;
-      margin-bottom: 25px;
+      font-size: 16px;
+      margin-bottom: 20px;
       background-color: #ffe0b2;
-      padding: 20px;
+      padding: 15px;
       border-left: 6px solid #ff9800;
       border-radius: 10px;
     }
 
     .checkbox-group {
-      background-color: #ffffffbb;
-      padding: 20px;
+      background-color: #ffffffcc;
+      padding: 15px;
       border-radius: 12px;
       margin-top: 20px;
       border: 2px dashed #ffcc80;
@@ -54,26 +56,45 @@
 
     label {
       display: block;
-      margin-bottom: 15px;
-      font-size: 18px;
+      margin-bottom: 12px;
+      font-size: 16px;
       cursor: pointer;
     }
 
     input[type="checkbox"] {
-      margin-right: 12px;
-      transform: scale(1.3);
+      margin-right: 10px;
+      transform: scale(1.2);
     }
 
     .footer {
       text-align: center;
-      margin-top: 40px;
+      margin-top: 30px;
       font-style: italic;
       color: #4e342e;
-      font-size: 16px;
+      font-size: 14px;
     }
 
     .emoji {
-      font-size: 24px;
+      font-size: 22px;
+    }
+
+    @media (max-width: 400px) {
+      h1 {
+        font-size: 24px;
+      }
+
+      .birthday-banner {
+        font-size: 18px;
+      }
+
+      .intro,
+      label {
+        font-size: 15px;
+      }
+
+      input[type="checkbox"] {
+        transform: scale(1.1);
+      }
     }
   </style>
 </head>
@@ -102,6 +123,7 @@
 
     <div class="footer">
       Din Jonas 💛<br>
+      <span class="emoji">🎁🎂🎈</span>
     </div>
   </div>
 
